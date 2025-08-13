@@ -1,0 +1,20 @@
+version: '3.8'
+
+services:
+  bell-schedule:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+    restart: unless-stopped
+    container_name: ascte-bell-schedule
+    image: ascte-bell-schedule
+    networks:
+      - bell-schedule-network
+
+networks:
+  bell-schedule-network:
+    driver: bridge
