@@ -1,16 +1,21 @@
-# Development Dockerfile for hot reloading
-FROM node:18-alpine
+# Development Dockerfile (runs `next dev`)
+FROM node:20-bookworm
 
 WORKDIR /app
 
-# Copy source code
-COPY . ./app
-
-# Install dependencies
+# copy only manifests first (better caching)
+COPY package.json package-lock.json ./
 RUN npm ci
 
-# Expose port
-EXPOSE 3000
+# now copy the rest of the app into /app (NOT /app/app)
+COPY . .
 
-# Start development server
+EXPOSE 3000
 CMD ["npm", "run", "dev"]
+
+
+
+
+
+
+# Note: This Dockerfile is for development purposes only.
